@@ -3,353 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Romántica Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Un Mensaje Para Ti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
-        
-        .romantic-bg {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-            min-height: 100vh;
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        .card-romantic {
-            background: linear-gradient(145deg, #ffffff 0%, #fef7f7 100%);
-            box-shadow: 0 20px 40px rgba(255, 182, 193, 0.3);
+
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
-        
-        .floating-hearts {
-            animation: floatingHearts 4s ease-in-out infinite;
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #f08080;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
-        @keyframes floatingHearts {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-10px) rotate(5deg); }
-            50% { transform: translateY(-5px) rotate(-3deg); }
-            75% { transform: translateY(-15px) rotate(3deg); }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #f08080, #f4978e);
+            border-radius: 10px;
+            z-index: -1;
         }
-        
-        .couple-dance {
-            animation: coupleDance 3s ease-in-out infinite;
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #f4978e;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        
-        @keyframes coupleDance {
-            0%, 100% { transform: translateX(0px) scale(1); }
-            25% { transform: translateX(-5px) scale(1.05); }
-            50% { transform: translateX(5px) scale(0.95); }
-            75% { transform: translateX(-3px) scale(1.02); }
+
+        .envelope-back::before, .envelope-back::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
         }
-        
-        .pulse-love {
-            animation: pulseLove 2s ease-in-out infinite;
+
+        .envelope-back::before {
+            border-width: 110px 160px;
+            border-color: transparent #f8ad9d transparent transparent;
+            right: 0;
         }
-        
-        @keyframes pulseLove {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+
+        .envelope-back::after {
+            border-width: 110px 160px;
+            border-color: transparent transparent transparent #f8ad9d;
+            left: 0;
         }
-        
-        .sparkle {
-            animation: sparkle 1.5s ease-in-out infinite;
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            background-color: #f4978e;
+            transform-origin: top;
+            transition: transform 0.7s ease-in-out;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            z-index: 10;
         }
-        
-        @keyframes sparkle {
-            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.5; transform: scale(1.2) rotate(180deg); }
+
+        .heart-seal {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #e55353;
+            border-radius: 5px;
+            z-index: 11;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
-        
-        .love-text {
+
+        .heart-seal::before, .heart-seal::after {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            background-color: #e55353;
+        }
+
+        .heart-seal::before {
+            top: -20px;
+        }
+
+        .heart-seal::after {
+            left: -20px;
+        }
+
+
+        .letter {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: #fffaf0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(100px) scale(0.8);
+            transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1;
             font-family: 'Dancing Script', cursive;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffa8a8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        
-        .fade-in {
-            animation: fadeIn 2s ease-in-out;
+
+        .letter h2 {
+            font-size: 2.5rem;
+            color: #d9534f;
+            margin-bottom: 15px;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .letter p {
+            font-size: 1.5rem;
+            color: #555;
+            line-height: 1.6;
         }
-        
-        .bounce-in {
-            animation: bounceIn 1s ease-out;
+
+        /* Open states */
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
         }
-        
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
+
+        .envelope-wrapper.open .heart-seal {
+            opacity: 0;
         }
-        
-        .heart-beat {
-            animation: heartBeat 1.5s ease-in-out infinite;
+
+        .envelope-wrapper.open .letter {
+            opacity: 1;
+            transform: translateY(-10px) scale(1);
+            z-index: 20;
         }
-        
-        @keyframes heartBeat {
-            0%, 100% { transform: scale(1); }
-            14% { transform: scale(1.1); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
-            70% { transform: scale(1); }
+
+        /* Finishing Touches - Animations */
+        .sparkle, .heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall 2s linear forwards;
         }
-        
-        .romantic-shadow {
-            box-shadow: 0 0 30px rgba(255, 182, 193, 0.6);
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
         }
-        
-        .love-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(255, 105, 135, 0.4);
-        }
-        
-        .stars-twinkle {
-            animation: starsTwinkle 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes starsTwinkle {
-            from { opacity: 0.5; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1.2); }
-        }
+
     </style>
 </head>
-<body class="romantic-bg">
-    <!-- Floating Hearts Background -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden">
-        <div class="floating-hearts absolute top-10 left-10 text-pink-300 text-2xl">💕</div>
-        <div class="floating-hearts absolute top-20 right-20 text-red-300 text-3xl" style="animation-delay: 0.5s;">❤️</div>
-        <div class="floating-hearts absolute top-40 left-1/4 text-pink-400 text-xl" style="animation-delay: 1s;">💖</div>
-        <div class="floating-hearts absolute top-60 right-1/3 text-red-400 text-2xl" style="animation-delay: 1.5s;">💝</div>
-        <div class="floating-hearts absolute bottom-40 left-20 text-pink-300 text-3xl" style="animation-delay: 2s;">💗</div>
-        <div class="floating-hearts absolute bottom-20 right-10 text-red-300 text-xl" style="animation-delay: 2.5s;">💕</div>
-        <div class="floating-hearts absolute top-1/2 left-10 text-pink-400 text-2xl" style="animation-delay: 3s;">💘</div>
-        <div class="floating-hearts absolute top-1/3 right-1/4 text-red-400 text-xl" style="animation-delay: 3.5s;">💞</div>
-    </div>
+<body>
 
-    <!-- Sparkles -->
-    <div class="fixed inset-0 pointer-events-none">
-        <div class="sparkle absolute top-16 left-1/3 text-yellow-300 text-lg">✨</div>
-        <div class="sparkle absolute top-32 right-1/4 text-yellow-400 text-sm" style="animation-delay: 0.7s;">⭐</div>
-        <div class="sparkle absolute bottom-32 left-1/4 text-yellow-300 text-lg" style="animation-delay: 1.4s;">✨</div>
-        <div class="sparkle absolute bottom-48 right-1/3 text-yellow-400 text-sm" style="animation-delay: 2.1s;">⭐</div>
-        <div class="stars-twinkle absolute top-24 left-1/2 text-yellow-300 text-xl">🌟</div>
-        <div class="stars-twinkle absolute bottom-24 right-1/2 text-yellow-400 text-lg" style="animation-delay: 1s;">🌟</div>
-    </div>
+    <div id="particles-container"></div>
 
-    <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="card-romantic rounded-3xl p-8 md:p-12 max-w-2xl w-full romantic-shadow bounce-in">
-            <!-- Header with Couple -->
-            <div class="text-center mb-8">
-                <div class="couple-dance text-6xl md:text-8xl mb-4">👫</div>
-                <h1 class="love-text text-4xl md:text-6xl font-bold mb-2 fade-in">Para Mi Amor</h1>
-                <div class="flex justify-center space-x-2 mb-4">
-                    <span class="heart-beat text-red-500 text-2xl">❤️</span>
-                    <span class="heart-beat text-pink-500 text-2xl" style="animation-delay: 0.2s;">💖</span>
-                    <span class="heart-beat text-red-500 text-2xl" style="animation-delay: 0.4s;">❤️</span>
-                </div>
-            </div>
-
-            <!-- Romantic Message -->
-            <div class="text-center mb-8 fade-in" style="animation-delay: 0.5s;">
-                <div class="bg-gradient-to-r from-pink-100 to-red-100 rounded-2xl p-6 mb-6">
-                    <p class="love-text text-2xl md:text-3xl leading-relaxed mb-4">
-                        "En cada latido de mi corazón, 
-                        <br>en cada suspiro que exhalo,
-                        <br>en cada sonrisa que dibujo,
-                        <br>estás tú..."
-                    </p>
-                    <div class="pulse-love text-4xl mb-4">💕</div>
-                    <p class="text-gray-700 text-lg md:text-xl font-medium">
-                        Eres la melodía que hace bailar mi alma,
-                        <br>el sol que ilumina mis días más grises,
-                        <br>y la razón por la que creo en los cuentos de hadas.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Cute Characters Section -->
-            <div class="flex justify-center items-center space-x-4 mb-8 fade-in" style="animation-delay: 1s;">
-                <div class="couple-dance text-4xl">👨‍❤️‍👩</div>
-                <div class="pulse-love text-3xl">💝</div>
-                <div class="couple-dance text-4xl" style="animation-delay: 0.5s;">👩‍❤️‍👨</div>
-            </div>
-
-            <!-- Love Quote -->
-            <div class="text-center mb-8 fade-in" style="animation-delay: 1.5s;">
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <p class="love-text text-xl md:text-2xl font-semibold mb-3">
-                        "Contigo, cada día es San Valentín"
-                    </p>
-                    <div class="flex justify-center space-x-2">
-                        <span class="floating-hearts text-pink-500 text-lg">🌹</span>
-                        <span class="floating-hearts text-red-500 text-lg" style="animation-delay: 0.3s;">🌹</span>
-                        <span class="floating-hearts text-pink-500 text-lg" style="animation-delay: 0.6s;">🌹</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Interactive Elements -->
-            <div class="text-center space-y-4 fade-in" style="animation-delay: 2s;">
-                <button id="loveBtn" class="love-button bg-gradient-to-r from-pink-500 to-red-500 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg">
-                    💖 Enviar Amor 💖
-                </button>
-                
-                <button id="musicBtn" class="love-button bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full text-md font-semibold transition-all duration-300 shadow-lg ml-4">
-                    🎵 Música Romántica 🎵
-                </button>
-            </div>
-
-            <!-- Footer -->
-            <div class="text-center mt-8 fade-in" style="animation-delay: 2.5s;">
-                <p class="text-gray-600 text-sm mb-2">Con todo mi amor,</p>
-                <div class="love-text text-2xl font-bold">Tu Alma Gemela 💕</div>
-                <div class="mt-4 flex justify-center space-x-1">
-                    <span class="sparkle text-yellow-400">✨</span>
-                    <span class="heart-beat text-red-500">❤️</span>
-                    <span class="sparkle text-yellow-400" style="animation-delay: 0.5s;">✨</span>
-                </div>
-            </div>
+    <div class="envelope-wrapper">
+        <div class="envelope">
+            <div class="envelope-back"></div>
         </div>
-    </div>
-
-    <!-- Love Message Modal -->
-    <div id="loveModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-3xl p-8 max-w-md mx-4 text-center bounce-in">
-            <div class="text-6xl mb-4">💕</div>
-            <h3 class="love-text text-3xl font-bold mb-4">¡Amor Enviado!</h3>
-            <p class="text-gray-700 mb-6">Tu mensaje de amor ha sido enviado directamente al corazón de tu ser amado 💖</p>
-            <button id="closeLoveModal" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300">
-                Cerrar 💝
-            </button>
-        </div>
-    </div>
-
-    <!-- Music Modal -->
-    <div id="musicModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-3xl p-8 max-w-md mx-4 text-center bounce-in">
-            <div class="text-6xl mb-4 pulse-love">🎵</div>
-            <h3 class="love-text text-3xl font-bold mb-4">Música del Corazón</h3>
-            <p class="text-gray-700 mb-6">🎶 "Can't Help Myself" - Four Tops 🎶<br>¡La canción perfecta para bailar juntos!</p>
-            <div class="mb-6">
-                <div class="couple-dance text-4xl">💃🕺</div>
-            </div>
-            <button id="closeMusicModal" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300">
-                Cerrar 🎵
-            </button>
+        <div class="envelope-flap"></div>
+        <div class="heart-seal"></div>
+        <div class="letter">
+            <h2>Mi Querido Amor,</h2>
+            <p>Cada momento a tu lado es un sueño hecho realidad. Eres la melodía que alegra mis días y la luz que ilumina mis noches.</p>
+            <p>Con todo mi amor,</p>
+            <p>Siempre Tuyo/a.</p>
         </div>
     </div>
 
     <script>
-        // Interactive elements
-        const loveBtn = document.getElementById('loveBtn');
-        const musicBtn = document.getElementById('musicBtn');
-        const loveModal = document.getElementById('loveModal');
-        const musicModal = document.getElementById('musicModal');
-        const closeLoveModal = document.getElementById('closeLoveModal');
-        const closeMusicModal = document.getElementById('closeMusicModal');
+        const envelopeWrapper = document.querySelector('.envelope-wrapper');
+        let isFirstClick = true;
 
-        // Love button functionality
-        loveBtn.addEventListener('click', () => {
-            loveModal.classList.remove('hidden');
-            createHeartExplosion();
+        envelopeWrapper.addEventListener('click', () => {
+            envelopeWrapper.classList.toggle('open');
+            if (isFirstClick) {
+                createParticles();
+                isFirstClick = false;
+            }
         });
 
-        // Music button functionality
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const hearts = 30;
+            const sparkles = 20;
+
+            for (let i = 0; i < hearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * -50 + 'px';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(heart);
+            }
+
+            for (let i = 0; i < sparkles; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * -50 + 'px';
+                sparkle.style.fontSize = Math.random() * 15 + 10 + 'px';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+
+        const musicBtn = document.getElementById('music-btn');
+        const song = document.getElementById('romantic-song');
+        let isPlaying = false;
+
         musicBtn.addEventListener('click', () => {
-            musicModal.classList.remove('hidden');
-            createSparkleEffect();
-        });
-
-        // Close modals
-        closeLoveModal.addEventListener('click', () => {
-            loveModal.classList.add('hidden');
-        });
-
-        closeMusicModal.addEventListener('click', () => {
-            musicModal.classList.add('hidden');
-        });
-
-        // Close modals when clicking outside
-        loveModal.addEventListener('click', (e) => {
-            if (e.target === loveModal) {
-                loveModal.classList.add('hidden');
+            if (isPlaying) {
+                song.pause();
+                musicBtn.innerHTML = '🎵';
+            } else {
+                song.play();
+                musicBtn.innerHTML = '⏸️';
             }
-        });
-
-        musicModal.addEventListener('click', (e) => {
-            if (e.target === musicModal) {
-                musicModal.classList.add('hidden');
-            }
-        });
-
-        // Heart explosion effect
-        function createHeartExplosion() {
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.innerHTML = ['❤️', '💖', '💕', '💗', '💝'][Math.floor(Math.random() * 5)];
-                    heart.className = 'fixed text-2xl pointer-events-none z-50';
-                    heart.style.left = Math.random() * window.innerWidth + 'px';
-                    heart.style.top = Math.random() * window.innerHeight + 'px';
-                    heart.style.animation = 'floatingHearts 3s ease-out forwards';
-                    document.body.appendChild(heart);
-
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 3000);
-                }, i * 100);
-            }
-        }
-
-        // Sparkle effect
-        function createSparkleEffect() {
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    const sparkle = document.createElement('div');
-                    sparkle.innerHTML = ['✨', '⭐', '🌟'][Math.floor(Math.random() * 3)];
-                    sparkle.className = 'fixed text-xl pointer-events-none z-50';
-                    sparkle.style.left = Math.random() * window.innerWidth + 'px';
-                    sparkle.style.top = Math.random() * window.innerHeight + 'px';
-                    sparkle.style.animation = 'sparkle 2s ease-out forwards';
-                    document.body.appendChild(sparkle);
-
-                    setTimeout(() => {
-                        sparkle.remove();
-                    }, 2000);
-                }, i * 150);
-            }
-        }
-
-        // Add random floating hearts periodically
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.innerHTML = ['💕', '💖', '💗'][Math.floor(Math.random() * 3)];
-            heart.className = 'fixed text-lg pointer-events-none floating-hearts';
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.top = window.innerHeight + 'px';
-            heart.style.opacity = '0.7';
-            document.body.appendChild(heart);
-
-            // Animate upward
-            let pos = window.innerHeight;
-            const interval = setInterval(() => {
-                pos -= 2;
-                heart.style.top = pos + 'px';
-                if (pos < -50) {
-                    clearInterval(interval);
-                    heart.remove();
-                }
-            }, 50);
-        }, 3000);
-
-        // Add click effect to the main couple
-        document.querySelector('.couple-dance').addEventListener('click', () => {
-            createHeartExplosion();
+            isPlaying = !isPlaying;
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96706ead16eb31f0',t:'MTc1MzgzMjEyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+    <audio id="romantic-song" src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Touching%20Moments%20Five.mp3" loop></audio>
+    <button id="music-btn" style="position: fixed; bottom: 20px; right: 20px; background: #e55353; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 100;">🎵</button>
+</body>
 </html>
